@@ -8,6 +8,7 @@ const download = require('download')
 const helper = require('./helper')
 const exts = {
     'image/jpeg': '.jpg',
+    'image/jpg': '.jpg',
     'image/png': '.png',
     'image/gif': '.gif',
 }
