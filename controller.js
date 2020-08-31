@@ -1,12 +1,15 @@
 'use strict'
 
-const base64Img = require('base64-img')
 const fs = require('fs')
 const tmpPath = './tmp/'
 const { nanoid } = require('nanoid')
 const formidable = require('formidable')
 const download = require('download')
 const helper = require('./helper')
+const exts = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+}
 
 class Controller {
     async index(req, res) {
@@ -15,8 +18,17 @@ class Controller {
 
     async uploadJson(req, res) {
         try {
-            let fileName = await base64Img.imgSync(req.body.image, tmpPath, nanoid())
-            fileName = fileName.split('/').reverse()[0]
+            let type = '.jpg'
+            for (let t of Object.keys(exts)) {
+                if (req.body.image.indexOf(t) > 0) {
+                    type = exts[t]
+                    break
+                }
+            }
+
+            let fileName = nanoid() + type
+            let imageData = req.body.image.split('base64,').reverse()[0]
+            fs.writeFileSync(tmpPath + fileName, imageData, 'base64')
 
             let imageUrl = await helper.deployImage(req, fileName)
             if (!imageUrl) throw new Error('-')
@@ -32,7 +44,6 @@ class Controller {
                 success: false
             })
         }
-
     }
 
     async uploadFile(req, res) {
