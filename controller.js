@@ -9,6 +9,7 @@ const helper = require('./helper')
 const exts = {
     'image/jpeg': '.jpg',
     'image/png': '.png',
+    'image/gif': '.gif',
 }
 
 class Controller {
@@ -48,10 +49,6 @@ class Controller {
 
     async uploadFile(req, res) {
         try {
-            let exts = {
-                'image/jpeg': '.jpg',
-                'image/png': '.png',
-            }
             let form = formidable({ multiples: false, uploadDir: tmpPath })
             form.parse(req, async function(err, fields, files) {
                 req.body = Object.assign(req.body, fields)

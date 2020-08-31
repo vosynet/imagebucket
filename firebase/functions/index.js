@@ -45,7 +45,7 @@ app.post('/upload', async function(req, res) {
             public: true,
         })
         res.send({
-            url: `${config.projectHost}/file/${date}/${name}`
+            path_url: `/file/${date}/${name}`
         })
     }
     catch(err) {
