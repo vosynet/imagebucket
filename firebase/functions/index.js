@@ -11,8 +11,9 @@ const os = require('os')
 const moment = require('moment')
 const tmpPath = os.tmpdir()
 const admin = require('firebase-admin')
-const serviceAccount = require('./auth.json')
+const serviceAccount = require('../service-account.json')
 const projectId = serviceAccount.project_id
+const privateKey = serviceAccount.private_key_id
 const config = {
     credential: admin.credential.cert(serviceAccount),
     databaseURL: `https://${projectId}.firebaseio.com`,
@@ -28,9 +29,16 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/file/*', async function(req, res) {
-    let fileName = req.params[0]
-    res.redirect(config.cdnDomain + '/' + fileName)
+app.use((req, res, next) => {
+    let auth = req.get('Authorization')
+    if (auth != `Bearer ${privateKey}`) {
+        return res.sendStatus(401)
+    }
+    next()
+})
+
+app.get('/test', function(req, res) {
+    res.send('Please visit https://vosy.net/imagebucket !')
 })
 
 app.post('/upload', async function(req, res) {
@@ -45,7 +53,7 @@ app.post('/upload', async function(req, res) {
             public: true,
         })
         res.send({
-            path_url: `/file/${date}/${name}`
+            url: `${cdnDomain}/${date}/${name}`
         })
     }
     catch(err) {
@@ -53,4 +61,4 @@ app.post('/upload', async function(req, res) {
     }
 })
 
-exports.api = functions.https.onRequest(app)
+exports.app = functions.https.onRequest(app)

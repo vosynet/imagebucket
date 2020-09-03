@@ -42,7 +42,7 @@ class Controller {
         }
         catch(err) {
             console.error(err)
-            res.send({
+            res.status(500).send({
                 success: false
             })
         }
@@ -67,7 +67,7 @@ class Controller {
         }
         catch(err) {
             console.error(err)
-            res.send({
+            res.status(500).send({
                 success: false
             })
         }
@@ -88,7 +88,7 @@ class Controller {
         }
         catch(err) {
             console.error(err)
-            res.send({
+            res.status(500).send({
                 success: false
             })
         }

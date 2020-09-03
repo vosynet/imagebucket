@@ -43,7 +43,7 @@ class Helper {
             }
         })
         .then(({ data}) => {
-            return req.firebaseHost + data.path_url
+            return data.url
         })
 
         fs.unlinkSync(tmpFilePath)
