@@ -11,7 +11,7 @@ const os = require('os')
 const moment = require('moment')
 const tmpPath = os.tmpdir()
 const admin = require('firebase-admin')
-const serviceAccount = require('../service-account.json')
+const serviceAccount = require('../service.json')
 const projectId = serviceAccount.project_id
 const privateKey = serviceAccount.private_key_id
 const config = {
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/test', function(req, res) {
-    res.send('Please visit https://vosy.net/imagebucket !')
+    res.send('Congratulation! Please visit https://vosy.net/imagebucket !')
 })
 
 app.post('/upload', async function(req, res) {

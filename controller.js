@@ -15,7 +15,7 @@ const exts = {
 
 class Controller {
     async index(req, res) {
-        res.send('Please visit https://vosy.net/imagebucket !')
+        res.send('Congratulation! Please visit https://vosy.net/imagebucket !')
     }
 
     async uploadJson(req, res) {

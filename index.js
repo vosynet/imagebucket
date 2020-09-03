@@ -9,9 +9,16 @@ const fs = require('fs')
 const bodyParser = require('body-parser')
 const port = process.env.PORT || 4000
 
-if (!process.env.FIREBASE_HOST) throw new Error('Please define env: FIREBASE_HOST')
-if (!fs.existsSync('./tmp')) fs.mkdirSync('./tmp')
+try {
+	const serviceAccount = require('./firebase/service.json')
+	process.env.FIREBASE_HOST = `https://${serviceAccount.project_id}.web.app`
+	process.env.PRIVATE_KEY = serviceAccount.private_key_id
+}
+catch(err){
+	throw new Error('service.json was invalid')
+}	
 
+if (!fs.existsSync('./tmp')) fs.mkdirSync('./tmp')
 app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}))
