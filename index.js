@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 4000
 
 try {
-	const serviceAccount = require('./firebase/service.json')
+	const serviceAccount = require('./firebase/functions/service.json')
 	process.env.FIREBASE_HOST = `https://${serviceAccount.project_id}.web.app`
 	process.env.PRIVATE_KEY = serviceAccount.private_key_id
 }
